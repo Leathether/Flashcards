@@ -41,13 +41,32 @@ const theme = createTheme({
 
 const GeneratePage = () => {
   const [topic, setTopic] = useState("");
+  const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // Function to parse the input text into terms and definitions
+  const parseInputText = (text) => {
+    // Placeholder parsing logic (splits text by semicolons for simplicity)
+    const lines = text.split("\n");
+    const flashcards = lines.map((line) => {
+      const [term, definition] = line.split(":");
+      return { term: term.trim(), definition: definition.trim() };
+    });
+    return flashcards;
+  };
+
   const handleGenerateFlashcards = async () => {
     setLoading(true);
-    // Placeholder for flashcard generation logic
-    router.push("/flashcards");
+
+    const flashcards = parseInputText(inputText);
+    console.log(flashcards); // You can replace this with actual logic to generate flashcards
+
+    // Simulating a route push to flashcards page
+    setTimeout(() => {
+      setLoading(false);
+      router.push("/flashcards");
+    }, 1000);
   };
 
   const handleGoBack = () => {
@@ -116,25 +135,113 @@ const GeneratePage = () => {
                 mb: 3,
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#CD2A4D", 
+                    borderColor: "#CD2A4D",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#84A07E", 
+                    borderColor: "#84A07E",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#84A07E", 
+                    borderColor: "#84A07E",
                   },
                 },
                 input: {
-                  color: "#84A07E", 
+                  color: "#84A07E",
                 },
                 "& .MuiInputLabel-root": {
                   color: "#CD2A4D",
                   "&:hover": {
-                    color: "#F0F2F4", 
+                    color: "#F0F2F4",
                   },
                   "&.Mui-focused": {
-                    color: "#84A07E", 
+                    color: "#84A07E",
+                  },
+                },
+              }}
+            />
+
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleGenerateFlashcards}
+              disabled={loading}
+              size="large"
+              sx={{
+                minWidth: 200,
+                height: 48,
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                letterSpacing: 1.5,
+                boxShadow: 3,
+                transition: "background-color 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "#84A07E", // Olive Green on hover
+                },
+              }}
+            >
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Generate"
+              )}
+            </Button>
+          </Box>
+        </Container>
+
+        <Typography>
+          <br />
+          OR
+        </Typography>
+
+        {/* Second box for inputting text */}
+        <Container maxWidth="sm">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              mt: 4,
+              p: 4,
+              borderRadius: 2,
+              boxShadow: 4,
+              bgcolor: "background.paper",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h4" component="h1" gutterBottom color="text">
+              Input Your Own Text
+            </Typography>
+            <TextField
+              label="Enter Your Text"
+              variant="outlined"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              fullWidth
+              multiline
+              rows={6}
+              margin="normal"
+              sx={{
+                mb: 3,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#CD2A4D",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#84A07E",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#84A07E",
+                  },
+                },
+                input: {
+                  color: "#84A07E",
+                },
+                "& .MuiInputLabel-root": {
+                  color: "#CD2A4D",
+                  "&:hover": {
+                    color: "#F0F2F4",
+                  },
+                  "&.Mui-focused": {
+                    color: "#84A07E",
                   },
                 },
               }}
