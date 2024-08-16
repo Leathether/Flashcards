@@ -74,7 +74,15 @@ const GeneratePage = () => {
           </Toolbar>
         </AppBar>
         <IconButton
-          sx={{ mt: 2, alignSelf: "flex-start", ml: 2 }}
+          sx={{
+            mt: 2,
+            alignSelf: "flex-start",
+            ml: 2,
+            "&:hover": {
+              backgroundColor: "primary", // Change to secondary
+              color: "success", // Consider changing this to white for better contrast
+            },
+          }}
           onClick={handleGoBack}
           color="secondary"
         >
@@ -94,12 +102,7 @@ const GeneratePage = () => {
               textAlign: "center",
             }}
           >
-            <Typography
-              variant="h4"
-              component="h1"
-              gutterBottom
-              color="primary"
-            >
+            <Typography variant="h4" component="h1" gutterBottom color="text">
               Generate Flashcards
             </Typography>
             <TextField
@@ -123,7 +126,12 @@ const GeneratePage = () => {
                   },
                 },
                 input: { color: "#FFFFFF" }, // White text input
-                label: { color: "#CD2A4D" }, // Pink/Red label color
+                label: {
+                  color: "#CD2A4D", // Pink/Red label color
+                  "&:hover": {
+                    color: "#84A07E", // Olive Green on hover
+                  },
+                },
               }}
             />
             <Button
