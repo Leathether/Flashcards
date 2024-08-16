@@ -116,24 +116,30 @@ const GeneratePage = () => {
                 mb: 3,
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#CD2A4D", // Pink/Red border color
+                    borderColor: "#CD2A4D", 
                   },
                   "&:hover fieldset": {
-                    borderColor: "#84A07E", // Olive Green on hover
+                    borderColor: "#84A07E", 
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#FFFFFF", // White on focus
+                    borderColor: "#84A07E", 
                   },
                 },
-                input: { color: "#FFFFFF" }, // White text input
-                label: {
-                  color: "#CD2A4D", // Pink/Red label color
+                input: {
+                  color: "#84A07E", 
+                },
+                "& .MuiInputLabel-root": {
+                  color: "#CD2A4D",
                   "&:hover": {
-                    color: "#84A07E", // Olive Green on hover
+                    color: "#F0F2F4", 
+                  },
+                  "&.Mui-focused": {
+                    color: "#84A07E", 
                   },
                 },
               }}
             />
+
             <Button
               variant="contained"
               color="secondary"
