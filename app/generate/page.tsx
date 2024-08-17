@@ -17,6 +17,7 @@ import {
   Container,
 } from "@mui/material";
 
+
 // Custom theme configuration
 const theme = createTheme({
   palette: {
@@ -40,33 +41,31 @@ const theme = createTheme({
 });
 
 const GeneratePage = () => {
-  const [topic, setTopic] = useState("");
-  const [inputText, setInputText] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [topic, setTopic] = useState<string>("");
+  const [inputText, setInputText] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  // Function to parse the input text into terms and definitions
-  const parseInputText = (text) => {
-    // Placeholder parsing logic (splits text by semicolons for simplicity)
-    const lines = text.split("\n");
-    const flashcards = lines.map((line) => {
-      const [term, definition] = line.split(":");
-      return { term: term.trim(), definition: definition.trim() };
-    });
-    return flashcards;
+  const handleGenerateByTopic = async () => {
+    setLoading(true);
+    try {
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGenerateFlashcards = async () => {
+  const handleGenerateByText = async () => {
     setLoading(true);
+    try {
 
-    const flashcards = parseInputText(inputText);
-    console.log(flashcards); // You can replace this with actual logic to generate flashcards
-
-    // Simulating a route push to flashcards page
-    setTimeout(() => {
+    } catch (error) {
+      console.error(error);
+    } finally {
       setLoading(false);
-      router.push("/flashcards");
-    }, 1000);
+    }
   };
 
   const handleGoBack = () => {
@@ -121,8 +120,13 @@ const GeneratePage = () => {
               textAlign: "center",
             }}
           >
-            <Typography variant="h4" component="h1" gutterBottom color="text">
-              Generate Flashcards
+            <Typography
+              variant="h4"
+              component="h1"
+              gutterBottom
+              color="text.primary"
+            >
+              Generate Flashcards by Topic
             </Typography>
             <TextField
               label="Enter a Topic"
@@ -162,7 +166,7 @@ const GeneratePage = () => {
             <Button
               variant="contained"
               color="secondary"
-              onClick={handleGenerateFlashcards}
+              onClick={handleGenerateByTopic}
               disabled={loading}
               size="large"
               sx={{
@@ -187,7 +191,7 @@ const GeneratePage = () => {
           </Box>
         </Container>
 
-        <Typography>
+        <Typography sx={{ mt: 4 }}>
           <br />
           OR
         </Typography>
@@ -207,7 +211,12 @@ const GeneratePage = () => {
               textAlign: "center",
             }}
           >
-            <Typography variant="h4" component="h1" gutterBottom color="text">
+            <Typography
+              variant="h4"
+              component="h1"
+              gutterBottom
+              color="text.primary"
+            >
               Input Your Own Text
             </Typography>
             <TextField
@@ -250,7 +259,7 @@ const GeneratePage = () => {
             <Button
               variant="contained"
               color="secondary"
-              onClick={handleGenerateFlashcards}
+              onClick={handleGenerateByText}
               disabled={loading}
               size="large"
               sx={{
