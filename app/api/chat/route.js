@@ -1,3 +1,5 @@
+// app/api/chat/route.js
+
 import { NextResponse } from "next/server";
 import GeminiAPIKey from "../../../.env.local";
 import Gemini from "@google/generative-ai";

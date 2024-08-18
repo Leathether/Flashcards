@@ -43,65 +43,64 @@ const GeneratePage = () => {
   const [topic, setTopic] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [flashcards, setFlashcards] = useState<any[]>([]);
   const router = useRouter();
 
-  const handleGenerateByTopic = async () => {
+  const handleGenerate = async (content: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate flashcards");
+      }
+
+      const data = await response.json();
+
+      // Map the flashcards to the expected structure
+      const formattedFlashcards = data.flashcards.map((card, index) => ({
+        id: index,
+        question: card.front,
+        answer: card.back,
+      }));
+
+      if (formattedFlashcards.length > 0) {
+        const flashcardsParam = encodeURIComponent(
+          JSON.stringify(formattedFlashcards)
+        );
+        router.push(`/flashcards?flashcards=${flashcardsParam}`);
+      }
+    } catch (error) {
+      console.error("Error generating flashcards:", error);
+      alert("An error occurred while generating flashcards. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGenerateByTopic = () => {
     if (!topic.trim()) {
       alert("Please enter a topic to generate flashcards.");
       return;
     }
-
-    setLoading(true);
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        body: topic,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to generate flashcards");
-      }
-
-      const data = await response.json();
-      setFlashcards(data.flashcards);
-    } catch (error) {
-      console.error("Error generating flashcards:", error);
-      alert("An error occurred while generating flashcards. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    handleGenerate(topic);
   };
 
-  const handleGenerateByText = async () => {
+  const handleGenerateByText = () => {
     if (!inputText.trim()) {
       alert("Please enter some text to generate flashcards.");
       return;
     }
-
-    setLoading(true);
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        body: inputText,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to generate flashcards");
-      }
-
-      const data = await response.json();
-      setFlashcards(data.flashcards);
-    } catch (error) {
-      console.error("Error generating flashcards:", error);
-      alert("An error occurred while generating flashcards. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    handleGenerate(inputText);
   };
 
   const handleGoBack = () => {
-    router.push("/"); // Navigate to the homepage
+    router.push("/");
   };
 
   return (
@@ -109,8 +108,8 @@ const GeneratePage = () => {
       <Box
         sx={{
           minHeight: "100vh",
-          bgcolor: "primary.main", // Black background
-          color: "text.primary", // White text
+          bgcolor: "primary.main",
+          color: "text.primary",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -129,8 +128,8 @@ const GeneratePage = () => {
             alignSelf: "flex-start",
             ml: 2,
             "&:hover": {
-              backgroundColor: "primary", // Change to secondary
-              color: "success", // Consider changing this to white for better contrast
+              backgroundColor: "primary",
+              color: "success",
             },
           }}
           onClick={handleGoBack}
@@ -210,7 +209,7 @@ const GeneratePage = () => {
                 boxShadow: 3,
                 transition: "background-color 0.3s ease",
                 "&:hover": {
-                  backgroundColor: "#84A07E", // Olive Green on hover
+                  backgroundColor: "#84A07E",
                 },
               }}
             >
@@ -228,7 +227,6 @@ const GeneratePage = () => {
           OR
         </Typography>
 
-        {/* Second box for inputting text */}
         <Container maxWidth="sm">
           <Box
             sx={{
@@ -303,7 +301,7 @@ const GeneratePage = () => {
                 boxShadow: 3,
                 transition: "background-color 0.3s ease",
                 "&:hover": {
-                  backgroundColor: "#84A07E", // Olive Green on hover
+                  backgroundColor: "#84A07E",
                 },
               }}
             >
@@ -315,40 +313,6 @@ const GeneratePage = () => {
             </Button>
           </Box>
         </Container>
-
-        {/* Display flashcards */}
-        {flashcards.length > 0 && (
-          <Container maxWidth="sm">
-            <Box
-              sx={{
-                mt: 4,
-                p: 4,
-                borderRadius: 2,
-                boxShadow: 4,
-                bgcolor: "background.paper",
-              }}
-            >
-              <Typography
-                variant="h5"
-                component="h2"
-                gutterBottom
-                color="text.primary"
-              >
-                Generated Flashcards
-              </Typography>
-              {flashcards.map((flashcard, index) => (
-                <Box key={index} sx={{ mb: 2 }}>
-                  <Typography color="text.primary">
-                    <strong>Front:</strong> {flashcard.front}
-                  </Typography>
-                  <Typography color="text.primary">
-                    <strong>Back:</strong> {flashcard.back}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </Container>
-        )}
       </Box>
     </ThemeProvider>
   );
