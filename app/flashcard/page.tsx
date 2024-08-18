@@ -1,3 +1,13 @@
+// This part gets the flashcards from the URL (like when you have something in the search bar) and then sends 
+// them to FlashcardPage to be displayed. It handles fetching and preparing the flashcards before showing them.
+
+// How it works:
+// FlashcardsPage fetches or retrieves the list of flashcards.
+// FlashcardsPage then passes this list to FlashcardPage.
+// FlashcardPage takes the list of flashcards and displays them to the user.
+
+"use client";
+
 import React from "react";
 import { Container, Typography, Card, CardContent } from "@mui/material";
 
@@ -5,7 +15,7 @@ interface FlashcardProps {
   flashcards: Array<{ id: number; question: string; answer: string }>;
 }
 
-const FlashcardPage: React.FC<FlashcardProps> = ({ flashcards }) => {
+const FlashcardPage: React.FC<FlashcardProps> = ({ flashcards = [] }) => {
   return (
     <Container
       sx={{
@@ -43,5 +53,6 @@ const FlashcardPage: React.FC<FlashcardProps> = ({ flashcards }) => {
     </Container>
   );
 };
+
 
 export default FlashcardPage;
