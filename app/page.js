@@ -32,7 +32,7 @@ export default function Home() {
         <AppBar
           position="static"
           sx={{
-            backgroundColor: "#84A07E", // Match the banner background color
+            backgroundColor: "#CD2A4D", // Match the banner background color
             boxShadow: "none",
             width: "100vw",
             maxWidth: "100%",
@@ -61,7 +61,7 @@ export default function Home() {
                   color: "#FFFFFF", // White text
                   fontWeight: "bold", // Bold text
                   '&:hover': {
-                    backgroundColor: '#841B35',
+                    backgroundColor: '#84A07E',
                     color: '#000000'
                   },
                   fontFamily: "Georgia, serif"
@@ -76,7 +76,7 @@ export default function Home() {
                   color: "#FFFFFF", // White text
                   fontWeight: "bold", // Bold text
                   '&:hover': {
-                    backgroundColor: '#841B35',
+                    backgroundColor: '#84A07E',
                     color: '#000000'
                   },
                   fontFamily: "Georgia, serif"

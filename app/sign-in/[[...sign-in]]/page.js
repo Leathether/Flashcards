@@ -18,11 +18,11 @@ export default function SignInPage() {
         flexDirection: "column",
       }}
     >
-      {/* Banner with background color #84A07E */}
+      {/* Banner with background color #CD2A4D */}
       <Box
         sx={{
           width: "100%",
-          backgroundColor: "#84A07E", // Olive green background color for the banner
+          backgroundColor: "#CD2A4D", // Pink/red background color for the banner
           height: "150px", // Set the height to match the home page banner height
           display: "flex",
           alignItems: "center", // Center content vertically
@@ -31,7 +31,7 @@ export default function SignInPage() {
         <AppBar
           position="static"
           sx={{
-            backgroundColor: "#84A07E", // Match the banner background color
+            backgroundColor: "#CD2A4D", // Match the banner background color
             boxShadow: "none",
             width: "100vw",
             maxWidth: "100%",
@@ -42,7 +42,7 @@ export default function SignInPage() {
         >
           <Toolbar sx={{ justifyContent: "space-between", padding: "0 20px", height: "100%" }}>
             <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-              <Typography variant="h5" sx={{ color: "#FFFFFF", fontFamily: "Georgia, serif", marginRight: "10px", marginTop: "-50px", '&:hover': { color: '#000000' } }}>
+              <Typography variant="h5" sx={{ color: "#FFFFFF", fontFamily: "Georgia, serif", marginRight: "10px", marginTop: "-50px" }}>
                 FlashFlex
               </Typography>
               <Link href="/" passHref>
@@ -60,7 +60,7 @@ export default function SignInPage() {
                     alt="FlashFlex Emblem"
                     width={100} // Slightly increased width for the top-left image
                     height={100} // Slightly increased height for the top-left image
-                    style={{ filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5))', marginTop: "-50px" }}
+                    style={{ filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5))', marginTop: "-46px" }}
                   />
                 </Box>
               </Link>
@@ -78,8 +78,8 @@ export default function SignInPage() {
                   fontWeight: "bold", // Bold text
                   marginTop: "-50px", // Adjust to lift the text higher
                   '&:hover': {
-                    backgroundColor: '#841B35',
-                    color: '#000000'
+                    backgroundColor: '#84A07E', // Olive green on hover
+                    color: '#000000' // Black text on hover
                   },
                   fontFamily: "Georgia, serif",
                 }}
@@ -94,8 +94,8 @@ export default function SignInPage() {
                   fontWeight: "bold", // Bold text
                   marginTop: "-50px", // Adjust to lift the text higher
                   '&:hover': {
-                    backgroundColor: '#841B35',
-                    color: '#000000'
+                    backgroundColor: '#84A07E', // Olive green on hover
+                    color: '#000000' // Black text on hover
                   },
                   fontFamily: "Georgia, serif",
                 }}
@@ -124,7 +124,60 @@ export default function SignInPage() {
         <Typography variant="h4" sx={{ color: "#CD2A4D", fontFamily: "Georgia, serif", marginBottom: "20px", marginTop: "-65px" }}>
           Sign In
         </Typography>
-        <SignIn />
+        <SignIn
+          appearance={{
+            variables: {
+              colorPrimary: "#CD2A4D", // Primary color (pink/red)
+              colorBackground: "#CD2A4D", // Background color (pink/red)
+              colorText: "#FFFFFF", // Text color (white)
+              colorInputBackground: "#FFFFFF", // Input fields background (white)
+              colorInputText: "#000000", // Input fields text color (black)
+              colorInputBorder: "#84A07E", // Input fields border color (olive green)
+              colorButtonText: "#FFFFFF", // Button text color (white)
+              colorButtonBackground: "#000000", // Button background color (black)
+              colorButtonBackgroundHover: "#84A07E", // Button background color on hover (olive green)
+            },
+            elements: {
+              card: {
+                backgroundColor: "#CD2A4D", // Background of the sign-in card (pink/red)
+                color: "#FFFFFF", // Text color inside the sign-in card (white)
+              },
+              headerTitle: {
+                color: "#000000", // Header title color (black)
+              },
+              formButtonPrimary: {
+                backgroundColor: "#000000", // Primary button background color (black)
+                color: "#FFFFFF", // Primary button text color (white)
+                "&:hover": {
+                  backgroundColor: "#84A07E", // Hover color for the button (olive green)
+                  color: "#FFFFFF", // Hover text color for the button (white)
+                },
+              },
+              socialButtonsBlockButton: {
+                backgroundColor: "#FFFFFF", // White background for "Continue with Google"
+                color: "#84A07E", // Olive green text color
+                borderColor: "#84A07E", // Border color for Google button (olive green)
+                "&:hover": {
+                  backgroundColor: "#F0F0F0", // Slightly darker white on hover
+                },
+              },
+              formFieldInput: {
+                backgroundColor: "#FFFFFF", // White background for input fields
+                color: "#000000", // Black text color for input fields
+                borderColor: "#84A07E", // Input border color (olive green)
+              },
+              footerActionLink: {
+                color: "#FFFFFF", // White text for "Don't have an account? Sign up"
+                "&:hover": {
+                  color: "#FFFFFF", // Keep white on hover
+                },
+                textDecoration: "none", // Remove underline
+                cursor: "pointer",
+              },
+            },
+          }}
+          redirectUrl="/sign-up" // Redirect to the Sign Up page
+        />
       </Box>
     </Box>
   );
