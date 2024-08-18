@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Header from "../components/header";
 import {
   AppBar,
   Toolbar,
@@ -115,13 +116,7 @@ const GeneratePage = () => {
           alignItems: "center",
         }}
       >
-        <AppBar position="static" color="primary">
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Flashcard Generator
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <Header />
         <IconButton
           sx={{
             mt: 2,
