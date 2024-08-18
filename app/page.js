@@ -119,7 +119,7 @@ export default function Home() {
         </Typography>
         <Button
           variant="contained"
-          href="/sign-up"  // This will direct the user to the sign-up page
+          href="/generate"  // This will direct the user to the sign-up page
           sx={{
             mt: 2,
             backgroundColor: "#CD2A4D",
