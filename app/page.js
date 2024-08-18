@@ -56,7 +56,7 @@ export default function Home() {
             <Box>
               <Button
                 color="inherit"
-                href="/signin"
+                href="/sign-in"
                 sx={{
                   color: "#FFFFFF", // White text
                   fontWeight: "bold", // Bold text
@@ -71,7 +71,7 @@ export default function Home() {
               </Button>
               <Button
                 color="inherit"
-                href="/signup"
+                href="/sign-up"
                 sx={{
                   color: "#FFFFFF", // White text
                   fontWeight: "bold", // Bold text
