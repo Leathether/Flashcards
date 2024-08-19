@@ -16,9 +16,7 @@ You should return in the following JSON format:
     }
   ]
 }
-  `
-;
-
+  `;
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
@@ -43,6 +41,8 @@ export async function POST(req) {
   });
   const response = await result.response;
   const text = response.text();
-  console.log(text);
-  return NextResponse.json(text);
+  const flashcards = JSON.parse(text);
+  console.log(flashcards);
+  // console.log(NextResponse.json(text));
+  return NextResponse.json(flashcards);
 }

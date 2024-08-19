@@ -1,17 +1,22 @@
-import React from "react";
+// flashcards/page.tsx
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
+  Box,
   Container,
   Typography,
   Card,
   CardContent,
+  IconButton,
   ThemeProvider,
   createTheme,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Header from "../components/header";
 
-interface FlashcardProps {
-  flashcards: Array<{ id: number; question: string; answer: string }>;
-}
-
+// Custom theme configuration
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,45 +38,95 @@ const theme = createTheme({
   },
 });
 
-const FlashcardPage: React.FC<FlashcardProps> = ({ flashcards = [] }) => {
+interface Flashcard {
+  front: string;
+  back: string;
+}
+
+const FlashcardsPage = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
+
+  useEffect(() => {
+    const flashcardsParam = searchParams.get("flashcards");
+    if (flashcardsParam) {
+      try {
+        const decodedFlashcards = JSON.parse(
+          decodeURIComponent(flashcardsParam)
+        );
+        setFlashcards(decodedFlashcards);
+      } catch (error) {
+        console.error("Error parsing flashcards:", error);
+      }
+    }
+  }, [searchParams]);
+
+  const handleGoBack = () => {
+    router.push("/generate");
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <Container
+      <Box
         sx={{
-          backgroundColor: "background.default",
           minHeight: "100vh",
-          padding: "2rem",
+          bgcolor: "background.default",
+          color: "text.primary",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          sx={{ color: "success.main" }}
-        >
-          Flashcards
-        </Typography>
-        {flashcards.map((flashcard) => (
-          <Card
-            key={flashcard.id}
+        <Header />
+        <Container maxWidth="md" sx={{ mt: 4 }}>
+          <IconButton
+            onClick={handleGoBack}
+            color="secondary"
             sx={{
-              backgroundColor: "secondary.main",
-              marginBottom: "1rem",
+              mb: 3,
+              "&:hover": {
+                backgroundColor: "primary.main",
+                color: "success.main",
+              },
             }}
           >
-            <CardContent>
-              <Typography variant="h6" sx={{ color: "background.default" }}>
-                Q: {flashcard.question}
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h4" color="text.primary" gutterBottom>
+            Generated Flashcards
+          </Typography>
+          <Box>
+            {flashcards.length > 0 ? (
+              flashcards.map((card, index) => (
+                <Card
+                  key={index}
+                  sx={{
+                    mb: 3,
+                    bgcolor: "background.paper",
+                    color: "text.primary",
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="h6" color="text.primary">
+                      Q: {card.front}
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      A: {card.back}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <Typography variant="body1" color="text.primary">
+                No flashcards generated.
               </Typography>
-              <Typography variant="body1" sx={{ color: "background.default" }}>
-                A: {flashcard.answer}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
-      </Container>
+            )}
+          </Box>
+        </Container>
+      </Box>
     </ThemeProvider>
   );
 };
 
-export default FlashcardPage;
+export default FlashcardsPage;

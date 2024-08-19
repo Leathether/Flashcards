@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Header from "../components/header";
 import {
-  AppBar,
-  Toolbar,
   IconButton,
   Button,
   TextField,
@@ -40,6 +38,11 @@ const theme = createTheme({
   },
 });
 
+interface Flashcard {
+  front: string;
+  back: string;
+}
+
 const GeneratePage = () => {
   const [topic, setTopic] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
@@ -63,19 +66,41 @@ const GeneratePage = () => {
 
       const data = await response.json();
 
-      // Map the flashcards to the expected structure
-      const formattedFlashcards = data.flashcards.map((card, index) => ({
-        id: index,
-        question: card.front,
-        answer: card.back,
-      }));
 
-      if (formattedFlashcards.length > 0) {
-        const flashcardsParam = encodeURIComponent(
-          JSON.stringify(formattedFlashcards)
-        );
-        router.push(`/flashcards?flashcards=${flashcardsParam}`);
-      }
+      console.log(data.flashcards)
+
+      // Map the flashcards to the expected structure
+      data.flashcards.map((flashcard: Flashcard) => {
+        console.log(flashcard.front);
+      });
+
+
+
+      const formattedFlashcards = data.flashcards.map(
+        (card: Flashcard, index: number) => ({
+          id: index,
+          front: card.front,
+          back: card.back,
+        })
+      );
+
+
+      console.log(formattedFlashcards);
+
+      // Save to local storage
+      localStorage.removeItem("flashcards")
+      const existingFlashcards = JSON.parse(
+        localStorage.getItem("flashcards") || "[]"
+      );
+      const updatedFlashcards = [...existingFlashcards, ...formattedFlashcards];
+      localStorage.setItem("flashcards", JSON.stringify(updatedFlashcards));
+
+      // Navigate to flashcards page with query param
+      router.push(
+        `/flashcards?flashcards=${encodeURIComponent(
+          JSON.stringify(updatedFlashcards)
+        )}`
+      );
     } catch (error) {
       console.error("Error generating flashcards:", error);
       alert("An error occurred while generating flashcards. Please try again.");
@@ -104,12 +129,16 @@ const GeneratePage = () => {
     router.push("/");
   };
 
+  const handleViewFlashcards = () => {
+    router.push("/flashcards");
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
           minHeight: "100vh",
-          bgcolor: "primary.main",
+          bgcolor: "background.default",
           color: "text.primary",
           display: "flex",
           flexDirection: "column",
@@ -123,8 +152,8 @@ const GeneratePage = () => {
             alignSelf: "flex-start",
             ml: 2,
             "&:hover": {
-              backgroundColor: "primary",
-              color: "success",
+              backgroundColor: "primary.main",
+              color: "success.main",
             },
           }}
           onClick={handleGoBack}
@@ -308,6 +337,27 @@ const GeneratePage = () => {
             </Button>
           </Box>
         </Container>
+
+        <Box sx={{ mt: 4 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleViewFlashcards}
+            size="large"
+            sx={{
+              fontWeight: "bold",
+              textTransform: "uppercase",
+              letterSpacing: 1.5,
+              boxShadow: 3,
+              transition: "background-color 0.3s ease",
+              "&:hover": {
+                backgroundColor: "#84A07E",
+              },
+            }}
+          >
+            View Flashcards
+          </Button>
+        </Box>
       </Box>
     </ThemeProvider>
   );
