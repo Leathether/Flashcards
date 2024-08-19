@@ -103,7 +103,7 @@ const FlashcardsPage = () => {
                   key={index}
                   sx={{
                     mb: 3,
-                    bgcolor: "background.paper",
+                    bgcolor: "primary.main",
                     color: "text.primary",
                   }}
                 >

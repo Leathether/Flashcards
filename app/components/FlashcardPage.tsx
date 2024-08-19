@@ -108,10 +108,10 @@ const FlashcardsPage = () => {
                   }}
                 >
                   <CardContent>
-                    <Typography variant="h6" color="text.primary">
+                    <Typography variant="h6" color="primary.main">
                       Q: {card.front}
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" color="text.primary">
                       A: {card.back}
                     </Typography>
                   </CardContent>
