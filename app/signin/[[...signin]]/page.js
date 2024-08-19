@@ -1,4 +1,4 @@
-import { SignIn } from "@clerk/nextjs";
+import { ClerkProvider, SignIn } from "@clerk/nextjs";
 import { Typography, AppBar, Toolbar, Button, Box } from '@mui/material';
 import Link from 'next/link';
 import Image from "next/image";
@@ -9,7 +9,7 @@ export default function SignInPage() {
       sx={{
         minHeight: "100vh",
         minWidth: "100vw",
-        backgroundColor: "#14171C", // Black background color for the entire page
+        backgroundColor: "#CD2A4D", // Black background color for the entire page
         color: "#FFFFFF",
         fontFamily: "Georgia, serif",
         padding: 0, // Remove default padding
@@ -22,7 +22,7 @@ export default function SignInPage() {
       <Box
         sx={{
           width: "100%",
-          backgroundColor: "#84A07E", // Olive green background color for the banner
+          backgroundColor: "#CD2A4D", // Olive green background color for the banner
           height: "150px", // Set the height to match the home page banner height
           display: "flex",
           alignItems: "center", // Center content vertically
@@ -31,7 +31,7 @@ export default function SignInPage() {
         <AppBar
           position="static"
           sx={{
-            backgroundColor: "#84A07E", // Match the banner background color
+            backgroundColor: "#CD2A4D", // Match the banner background color
             boxShadow: "none",
             width: "100vw",
             maxWidth: "100%",
@@ -124,7 +124,10 @@ export default function SignInPage() {
         <Typography variant="h4" sx={{ color: "#CD2A4D", fontFamily: "Georgia, serif", marginBottom: "20px", marginTop: "-65px" }}>
           Sign In
         </Typography>
-        <SignIn />
+        <ClerkProvider>
+          <SignIn />
+        </ClerkProvider>
+        
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { SignUp } from "@clerk/nextjs";
+import { ClerkProvider, SignUp } from "@clerk/nextjs";
 import { Typography, AppBar, Toolbar, Button, Box } from '@mui/material';
 import Link from 'next/link';
 import Image from "next/image";
@@ -9,7 +9,7 @@ export default function SignUpPage() {
       sx={{
         minHeight: "100vh",
         minWidth: "100vw",
-        backgroundColor: "#14171C", // Black background color for the entire page
+        backgroundColor: "#CD2A4D", // Black background color for the entire page
         color: "#FFFFFF",
         fontFamily: "Georgia, serif",
         padding: 0, // Remove default padding
@@ -22,7 +22,7 @@ export default function SignUpPage() {
       <Box
         sx={{
           width: "100%",
-          backgroundColor: "#84A07E", // Olive green background color for the banner
+          backgroundColor: "#CD2A4D", // Olive green background color for the banner
           height: "150px", // Set the height to match the previous banner height
           display: "flex",
           alignItems: "center", // Center content vertically
@@ -31,7 +31,7 @@ export default function SignUpPage() {
         <AppBar
           position="static"
           sx={{
-            backgroundColor: "#84A07E", // Match the banner background color
+            backgroundColor: "#CD2A4D", // Match the banner background color
             boxShadow: "none",
             width: "100vw",
             maxWidth: "100%",
@@ -94,7 +94,7 @@ export default function SignUpPage() {
                   fontFamily: "Georgia, serif",
                 }}
               >
-                <Link href="/sign-in" passHref style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Link href="/signin" passHref style={{ color: 'inherit', textDecoration: 'none' }}>
                   LOG IN
                 </Link>
               </Button>
@@ -111,7 +111,7 @@ export default function SignUpPage() {
                   fontFamily: "Georgia, serif",
                 }}
               >
-                <Link href="/sign-up" passHref style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Link href="/signup" passHref style={{ color: 'inherit', textDecoration: 'none' }}>
                   SIGN UP
                 </Link>
               </Button>
@@ -137,7 +137,9 @@ export default function SignUpPage() {
         <Typography variant="h4" sx={{ color: "#CD2A4D", fontFamily: "Georgia, serif", marginBottom: "20px", marginTop: "-65px" }}>
           Sign Up
         </Typography>
-        <SignUp />
+        <ClerkProvider>
+          <SignUp />
+        </ClerkProvider>
       </Box>
     </Box>
   );
