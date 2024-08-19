@@ -1,6 +1,7 @@
 // app/api/chat/route.js
 
 import { NextResponse } from "next/server";
+import { serialize } from 'cookie';
 import GeminiAPIKey from "../../../.env.local";
 import Gemini from "@google/generative-ai";
 
@@ -43,6 +44,11 @@ export async function POST(req) {
   const text = response.text();
   const flashcards = JSON.parse(text);
   console.log(flashcards);
-  // console.log(NextResponse.json(text));
+
+
+   
+   
+
+
   return NextResponse.json(flashcards);
 }
