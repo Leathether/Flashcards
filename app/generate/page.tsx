@@ -3,9 +3,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Header from "../components/header";
 import {
-  AppBar,
-  Toolbar,
   IconButton,
   Button,
   TextField,
@@ -16,7 +15,6 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-
 
 // Custom theme configuration
 const theme = createTheme({
@@ -40,36 +38,99 @@ const theme = createTheme({
   },
 });
 
+interface Flashcard {
+  front: string;
+  back: string;
+}
+
 const GeneratePage = () => {
   const [topic, setTopic] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const handleGenerateByTopic = async () => {
+  const handleGenerate = async (content: string) => {
     setLoading(true);
     try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content }),
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to generate flashcards");
+      }
+
+      const data = await response.json();
+
+
+      console.log(data.flashcards)
+
+      // Map the flashcards to the expected structure
+      data.flashcards.map((flashcard: Flashcard) => {
+        console.log(flashcard.front);
+      });
+
+
+
+      const formattedFlashcards = data.flashcards.map(
+        (card: Flashcard, index: number) => ({
+          id: index,
+          front: card.front,
+          back: card.back,
+        })
+      );
+
+
+      console.log(formattedFlashcards);
+
+      // Save to local storage
+      localStorage.removeItem("flashcards")
+      const existingFlashcards = JSON.parse(
+        localStorage.getItem("flashcards") || "[]"
+      );
+      const updatedFlashcards = [...existingFlashcards, ...formattedFlashcards];
+      localStorage.setItem("flashcards", JSON.stringify(updatedFlashcards));
+
+      // Navigate to flashcards page with query param
+      router.push(
+        `/flashcards?flashcards=${encodeURIComponent(
+          JSON.stringify(updatedFlashcards)
+        )}`
+      );
     } catch (error) {
-      console.error(error);
+      console.error("Error generating flashcards:", error);
+      alert("An error occurred while generating flashcards. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGenerateByText = async () => {
-    setLoading(true);
-    try {
-
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
+  const handleGenerateByTopic = () => {
+    if (!topic.trim()) {
+      alert("Please enter a topic to generate flashcards.");
+      return;
     }
+    handleGenerate(topic);
+  };
+
+  const handleGenerateByText = () => {
+    if (!inputText.trim()) {
+      alert("Please enter some text to generate flashcards.");
+      return;
+    }
+    handleGenerate(inputText);
   };
 
   const handleGoBack = () => {
-    router.push("/"); // Navigate to the homepage
+    router.push("/");
+  };
+
+  const handleViewFlashcards = () => {
+    router.push("/flashcards");
   };
 
   return (
@@ -77,28 +138,22 @@ const GeneratePage = () => {
       <Box
         sx={{
           minHeight: "100vh",
-          bgcolor: "primary.main", // Black background
-          color: "text.primary", // White text
+          bgcolor: "background.default",
+          color: "text.primary",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <AppBar position="static" color="primary">
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Flashcard Generator
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <Header />
         <IconButton
           sx={{
             mt: 2,
             alignSelf: "flex-start",
             ml: 2,
             "&:hover": {
-              backgroundColor: "primary", // Change to secondary
-              color: "success", // Consider changing this to white for better contrast
+              backgroundColor: "primary.main",
+              color: "success.main",
             },
           }}
           onClick={handleGoBack}
@@ -178,7 +233,7 @@ const GeneratePage = () => {
                 boxShadow: 3,
                 transition: "background-color 0.3s ease",
                 "&:hover": {
-                  backgroundColor: "#84A07E", // Olive Green on hover
+                  backgroundColor: "#84A07E",
                 },
               }}
             >
@@ -196,7 +251,6 @@ const GeneratePage = () => {
           OR
         </Typography>
 
-        {/* Second box for inputting text */}
         <Container maxWidth="sm">
           <Box
             sx={{
@@ -271,7 +325,7 @@ const GeneratePage = () => {
                 boxShadow: 3,
                 transition: "background-color 0.3s ease",
                 "&:hover": {
-                  backgroundColor: "#84A07E", // Olive Green on hover
+                  backgroundColor: "#84A07E",
                 },
               }}
             >
@@ -283,6 +337,27 @@ const GeneratePage = () => {
             </Button>
           </Box>
         </Container>
+
+        <Box sx={{ mt: 4 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleViewFlashcards}
+            size="large"
+            sx={{
+              fontWeight: "bold",
+              textTransform: "uppercase",
+              letterSpacing: 1.5,
+              boxShadow: 3,
+              transition: "background-color 0.3s ease",
+              "&:hover": {
+                backgroundColor: "#84A07E",
+              },
+            }}
+          >
+            View Flashcards
+          </Button>
+        </Box>
       </Box>
     </ThemeProvider>
   );
