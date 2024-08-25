@@ -2,7 +2,6 @@
 
 import { NextResponse } from "next/server";
 import { serialize } from 'cookie';
-import GeminiAPIKey from "../../../.env.local";
 import Gemini from "@google/generative-ai";
 
 const systemPrompt = `
