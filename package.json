@@ -9,10 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "clerk": "^0.6.1",
+    "@clerk/nextjs": "^4.6.18",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@google/generative-ai": "^0.17.0",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
+    "clerk": "^0.8.3",
+    "cookie": "^0.7.1",
+    "dotenv": "^16.4.5",
     "firebase": "^10.12.5",
     "firebaseui": "^6.1.0",
-    "next": "14.2.5",
+    "next": "^14.2.14",
     "react": "^18",
     "react-dom": "^18"
   },
