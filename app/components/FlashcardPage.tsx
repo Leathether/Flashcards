@@ -82,7 +82,7 @@ const FlashcardsPage = () => {
         <Container maxWidth="md" sx={{ mt: 4 }}>
           <IconButton
             onClick={handleGoBack}
-            color="primary"
+            color="secondary"
             sx={{
               mb: 3,
               "&:hover": {
@@ -103,18 +103,15 @@ const FlashcardsPage = () => {
                   key={index}
                   sx={{
                     mb: 3,
-                    bgcolor: "primary.main",
+                    bgcolor: "background.paper",
                     color: "text.primary",
-                    borderColor:"ivory",
-                    borderWidth:"1vw",
-                    borderRadius:"25px"
                   }}
                 >
                   <CardContent>
-                    <Typography variant="h6" color="text.primary">
+                    <Typography variant="h6" color="primary.main">
                       Q: {card.front}
                     </Typography>
-                    <Typography variant="body1" color="text.primary" margin="2vw">
+                    <Typography variant="body1" color="text.primary">
                       A: {card.back}
                     </Typography>
                   </CardContent>
